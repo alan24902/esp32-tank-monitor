@@ -1,4 +1,5 @@
-# v7 Portable device for diagnostic through UART and ESPNOW
+# v6 wifi reconection improved for time
+# Now the esp32 sender can keep working even if there is not wifi available
 
 import network
 import espnow
@@ -8,11 +9,11 @@ import ntptime
 
 
 # Home receiver MAC
-HOME_MAC = "Your MAC address receiver device"
+HOME_MAC = b'\x84\x1f\xe8i l'
 
 
 # Portable Receiver MAC
-PORTABLE_MAC = "Diagnosting device MAC address "
+PORTABLE_MAC = b'\xac\xa7\x043\x13\xe0'
 
 
 def init_espnow():
@@ -45,7 +46,7 @@ def sync_time():
     # 1. Connect to Wi-Fi
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect("Your WI-FI Network Name", "Your Password")
+    wlan.connect("Niza", "Ariana1609+")
 
     # Wait for connection
     print("Connecting to Wi-Fi...")
@@ -79,7 +80,10 @@ def sync_time():
         
         return False
     
-        
+   
+
+
+     
             
 sync_time_state = sync_time()
 
@@ -120,7 +124,7 @@ adc = ADC(Pin(34))
 adc.atten(ADC.ATTN_11DB)
 
 V_EMPTY = 0.0
-V_FULL = 1.6
+V_FULL = 1.49
 H_FULL = 1.02
 
 def read_voltage():
@@ -211,3 +215,4 @@ while True:
     wdt.feed()
     wifi_connected_counter = 0 
     time.sleep(2)
+
