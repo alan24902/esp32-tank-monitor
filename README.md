@@ -7,12 +7,16 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 - **Power**: 
     * **ESP32**: Both ESP32, sender and receiver are wall plugged with operating voltage 5V DC via USB-C wall adapters.
     * **QDY30A**: The hydrostatic sensor powered by the 5V output that the ESP32 provides.
+
 - **Sensor Type**: QDY30A Hydrostatic pressure sensor(analog output, 0-3.3V 5V DC 2m range) that sits before the bottom of the tank.
+
 - **Tank Height**: The calibrated full height of `1.02m` is according to the physical placement of the sensor before the bottom of the tank floor
+
 - **Tank Capacity**:
     * **Total Capacity**: 1,000 liters
     * **Usable Capacity**: 688 liters
     * **Note**: The usable capacity is capped at 688 liters because the water pump's pipe is positioned 21 cm above the tank floor. Any water below this point is unreachable by the pump, leaving 688 liters of active, usable volume.
+
 - **Connectivity**: 
     * **ESP-NOW**: Establishes a wireless communication between the ESP32 transmitter and the ESP32 receiver for a real-time data sharing, also connects the wireless diagnostic tool device. 
     * **Wi-Fi (NTP)**: The ESP32 sender node uses Wi-Fi to synchronize the local internal RTC with the NTP server and fetches the time.
@@ -23,6 +27,7 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 - **ESP32**:
     * **ESP32 WROOM 32U (Sender Node)**: ESP32 with 2.4GHZ external antenna to manage Wi-Fi connections to fetch NTP time, hydrostatic level sensor readings, and share data across ESP-NOW and UART, all protected by a IP67 enclosure in outdoors. 
     * **ESP32 WROOM 32D (Receiver Node)**: ESP32 located indoors with built-in antenna, receives the wireless ESP-NOW data packets.
+
 - **Heltec V3 (Diagnostic and Calibration tool)**: A portable device used to connect either wireless (ESP-NOW) or physical serial (UART) to read diagnostic reports and calibration status.
 
 #### Sensors
@@ -30,12 +35,16 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 
 #### User interface & Alert Hardware
 - **SSD1306 0.96-inch OLED Display**: Connected to the ESP32 receiver node via I2C(GPIO21/22) to output real-time metrics (Percentage, Liters, and NTP-synced time)
+
 - **3V Active Buzzer**: Connected to GPIO18 on the receiver node to sound an audible warning if the usable water drops below 50%.
 
 #### Infrastructure & Power
 - **External Wi-Fi Antenna**: High-gain omnidirectional 2.4GHZ external antenna to improve the signal between both nodes.
+
 - **IP67 5V Extension cord**: Ruggedized outdoor 5V Extension cord  IP67 rate that provides a steady voltage to the outdoors ESP32
+
 - **5V DC Wall Power Adapter**: A Standard 5V wall power adapter USB-C that powers the ESP32 indoors
+
 - **IP67 Enclosure**: Ip67 plastic enclosure.
 
 ## Why I Used A Pressure Sensor
@@ -62,11 +71,34 @@ The operational logic of the project is:
 
 ### Outdoor Transmitter Node (ESP32 WROOM-32U)
 
-#### BreadBoard
+### BreadBoard
 ![ESP32 Sender Node BreadBoard](ESP32_sender_node_bb.png)
 
-#### PCB
+### PCB
 ![alt text](ESP32_sender_node_pcb.png)
 
-#### Schema
+### Schema
 ![alt text](ESP32_sender_node_schem.png)
+
+
+### Indoor Receiver Node (ESP32 WROOM-32D)
+
+### BreadBoard
+![alt text](ESP32_receiver_node_bb.png)
+
+### PCB
+![alt text](ESP32_receiver_node_pcb.png)
+
+### Schema
+![alt text](ESP32_receiver_node_schem.png)
+
+
+### Hardware Pinout Matrix
+
+| Peripheral Component | Component Pin / Wire | ESP32 Target GPIO | Connection Type | Power Rail | Notes / Signal Type |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 🪚 **QDY30A Level Sensor** | **VCC** (Power Input) | **5V / VIN** | Power Line | 5V DC | Stable sensor driving voltage |
+| | **GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
+| | **OUT** (Analog Out) | **GPIO 34** | Signal Input | 3.3V Max | Analog Input (`ADC1_CH6`) |
+| 🛠️ **Heltec V3 (UART Link)**| **TX** (Transmit) | **GPIO 16** | Data Link | 3.3V Logic | Serial Data Input (`RX2`) |
+| | **RX** (Receive) | **GPIO 17** | Data Link | 3.3V Logic | Serial Data
