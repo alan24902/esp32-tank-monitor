@@ -44,15 +44,22 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 - **How The Sensor Works**: The QDY30A hydrostatic liquid level sensor is a industrial-grade, high-precision sensor, the sensor located at the bottom of the tank and calculates the water level of the tank by the physical weight of the water pushing down on it (pressure). As the tank fills up, and the water gets taller and heavier, this increase of physical weight creates higher water pressure. The technical parameters of the QDY30A hydrostatic liquid level sensor model selected for this project are: 2m range, 0V-3.3V, and 5V DC which means when the tank is empty or full the sensor sends an analog signal to the ESP32 where 0V = 0cm, and 3.3v = 2m(theoretical) limit but for my project the highest volume of water for my water tank is at 1.02m that gives us 1.49v, and lastly the 5V DC means the QDY30A hydrostatic needs to be powered by an input of 5V to work.
 
 ## How The System works
-The logic of project is the next:
+The operational logic of the project is:
 
-- **ESP32 Sender Node** 
-    * **1.** The ESP32 Sender node connects to the Wi-Fi network and syncs the time with the NTP server.
-    * **2.** The ESP32 sender node powers(5v DC) the pressure sensor.
-    * **4.** The QDY30A hydrostatic sensor take the readings, and send back the data to the ESP32 sensor node.
-    * **5.** The ESP32 sender node converts the analog input that comes from the hydrostatic sensor to digital data and makes all calculations(percentage, liters, voltage).
-    * **6.** The ESP32 sender node sends the data through ESP-NOW communication protocol to the ESP32 receiver node who is waiting.
-    * **7.** The ESP32 receiver node display the water volume in percentage and the water liters available.
+### ESP32 Sender Node 
+    **1.** The ESP32 Sender node connects to the Wi-Fi network and syncs the time with the NTP server.
+    **2.** The ESP32 sender node powers(5V DC) the pressure sensor.
+    **3.** The QDY30A hydrostatic sensor takes the readings, and sends back the data to the ESP32 sensor node.
+    **4.** The ESP32 sender node converts the analog input that comes from the hydrostatic sensor to digital data and makes all calculations(percentage, liters, voltage).
+    **5.** The ESP32 sender node sends the data through ESP-NOW communication protocol to the ESP32 receiver node which is waiting.
 
+### ESP32 Receiver Node
+    **6.** The ESP32 receiver node updates its I2C OLED dashboard to display the water volume in percentage, the remaining water volume in liters, and the current timestamp.
+    **7.** The ESP32 receiver node checks if the water percentage drops below or equal to 50%, it triggers the active buzzer alarm.
 
+## Hardware Connection & Wiring Guide
+
+### Outdoor Transmitter Node (ESP32 WROOM-32U)
+
+![ESP32 Sender Node BreadBoard](ESP32_sender_node_bb.png)
 
