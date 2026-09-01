@@ -124,7 +124,7 @@ adc = ADC(Pin(34))
 adc.atten(ADC.ATTN_11DB)
 
 V_EMPTY = 0.0
-V_FULL = 1.49
+V_FULL = 1.41
 H_FULL = 1.02
 
 def read_voltage():
