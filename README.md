@@ -47,19 +47,26 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 The operational logic of the project is:
 
 ### ESP32 Sender Node 
-    **1.** The ESP32 Sender node connects to the Wi-Fi network and syncs the time with the NTP server.
-    **2.** The ESP32 sender node powers(5V DC) the pressure sensor.
-    **3.** The QDY30A hydrostatic sensor takes the readings, and sends back the data to the ESP32 sensor node.
-    **4.** The ESP32 sender node converts the analog input that comes from the hydrostatic sensor to digital data and makes all calculations(percentage, liters, voltage).
-    **5.** The ESP32 sender node sends the data through ESP-NOW communication protocol to the ESP32 receiver node which is waiting.
+* **1.** The ESP32 Sender node connects to the Wi-Fi network and syncs the time with the NTP server.
+* **2.** The ESP32 sender node powers(5V DC) the pressure sensor.
+* **3.** The QDY30A hydrostatic sensor takes the readings, and sends back the data to the ESP32 sensor node.
+* **4.** The ESP32 sender node converts the analog input that comes from the hydrostatic sensor to digital data and makes all calculations(percentage, liters, voltage).
+* **5.** The ESP32 sender node sends the data through ESP-NOW communication protocol to the ESP32 receiver node which is waiting.
 
 ### ESP32 Receiver Node
-    **6.** The ESP32 receiver node updates its I2C OLED dashboard to display the water volume in percentage, the remaining water volume in liters, and the current timestamp.
-    **7.** The ESP32 receiver node checks if the water percentage drops below or equal to 50%, it triggers the active buzzer alarm.
+* **6.** The ESP32 receiver node updates its I2C OLED dashboard to display the water volume in percentage, the remaining water volume in liters, and the current timestamp.
+* **7.** The ESP32 receiver node checks if the water percentage drops below or equal to 50%, it triggers the active buzzer alarm.
+
 
 ## Hardware Connection & Wiring Guide
 
 ### Outdoor Transmitter Node (ESP32 WROOM-32U)
 
+#### BreadBoard
 ![ESP32 Sender Node BreadBoard](ESP32_sender_node_bb.png)
 
+#### PCB
+![alt text](ESP32_sender_node_pcb.png)
+
+#### Schema
+![alt text](ESP32_sender_node_schem.png)
