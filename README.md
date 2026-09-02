@@ -20,7 +20,7 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 - **Connectivity**: 
     * **ESP-NOW**: Establishes a wireless communication between the ESP32 transmitter and the ESP32 receiver for a real-time data sharing, also connects the wireless diagnostic tool device. 
     * **Wi-Fi (NTP)**: The ESP32 sender node uses Wi-Fi to synchronize the local internal RTC with the NTP server and fetches the time.
-    * **UART**: A hardwired interface connecting the ESP32 sender node to the Heltec diagnostic device to read the data and display it in the Heltec built-in oled screen. 
+    * **UART**: A hardwired interface connecting the ESP32 sender node to the Heltec diagnostic device to read the data and display it on the Heltec built-in oled screen. 
 
 ### Hardware
 #### Core electronics
@@ -48,9 +48,9 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 - **IP67 Enclosure**: Ip67 plastic enclosure.
 
 ## Why I Used A Pressure Sensor
-- **Why I Chose The  QDY30A hydrostatic sensor**: My initial design considered the **JSN-SR04T waterproof ultrasonic sensor**, however, due the real -world conditions inside the water tank specifically condensation inside of the tank and the possible small insects that could live there the reading of the sensor were not reliable, afterwards I decided to move to the QDY30A hydrostatic liquid level sensor because it uses a precise pressure calculation that nothing can interfere with the sensor readings.
+- **Why I Chose The  QDY30A hydrostatic sensor**: My initial design considered the **JSN-SR04T waterproof ultrasonic sensor**, however, due to the real -world conditions inside the water tank specifically condensation inside of the tank and the possible small insects that could live there the reading of the sensor were not reliable, afterwards I decided to move to the QDY30A hydrostatic liquid level sensor because it uses a precise pressure calculation that nothing can interfere with the sensor readings.
 
-- **How The Sensor Works**: The QDY30A hydrostatic liquid level sensor is a industrial-grade, high-precision sensor, the sensor located at the bottom of the tank and calculates the water level of the tank by the physical weight of the water pushing down on it (pressure). As the tank fills up, and the water gets taller and heavier, this increase of physical weight creates higher water pressure. The technical parameters of the QDY30A hydrostatic liquid level sensor model selected for this project are: 2m range, 0V-3.3V, and 5V DC which means when the tank is empty or full the sensor sends an analog signal to the ESP32 where 0V = 0cm, and 3.3v = 2m(theoretical) limit but for my project the highest volume of water for my water tank is at 1.02m that gives us 1.49v, and lastly the 5V DC means the QDY30A hydrostatic needs to be powered by an input of 5V to work.
+- **How The Sensor Works**: The QDY30A hydrostatic liquid level sensor is a industrial-grade, high-precision sensor, the sensor located at the bottom of the tank and calculates the water level of the tank by the physical weight of the water pushing down on it (pressure). As the tank fills up, and the water gets taller and heavier, this increase of physical weight creates higher water pressure. The technical parameters of the QDY30A hydrostatic liquid level sensor model selected for this project are: 2m range, 0V-3.3V, and 5V DC which means when the tank is empty or full the sensor sends an analog signal to the ESP32 where 0V = 0cm, and 3.3v = 2m (theoretical) limit but for my project the highest volume of water for my water tank is at 1.02m that gives us 1.49v, and lastly the 5V DC means the QDY30A hydrostatic needs to be powered by an input of 5V to work.
 
 ## How The System works
 The operational logic of the project is:
@@ -58,7 +58,7 @@ The operational logic of the project is:
 ### ESP32 Sender Node 
 * **1.** The ESP32 Sender node connects to the Wi-Fi network and syncs the time with the NTP server.
 * **2.** The ESP32 sender node powers(5V DC) the pressure sensor.
-* **3.** The QDY30A hydrostatic sensor takes the readings, and sends back the data to the ESP32 sensor node.
+* **3.** The QDY30A hydrostatic sensor takes the readings and sends back the data to the ESP32 sensor node.
 * **4.** The ESP32 sender node converts the analog input that comes from the hydrostatic sensor to digital data and makes all calculations(percentage, liters, voltage).
 * **5.** The ESP32 sender node sends the data through ESP-NOW communication protocol to the ESP32 receiver node which is waiting.
 
@@ -75,44 +75,20 @@ The operational logic of the project is:
 ![ESP32 Sender Node BreadBoard](ESP32_sender_node_bb.png)
 
 ### PCB
-![alt text](ESP32_sender_node_pcb.png)
+![ESP32 Sender Node PCB](ESP32_sender_node_pcb.png)
 
 ### Schema
-![alt text](ESP32_sender_node_schem.png)
+![ESP32 Sender Node Schema](ESP32_sender_node_schem.png)
 
 
 ### Indoor Receiver Node (ESP32 WROOM-32D)
 
 ### BreadBoard
-![alt text](ESP32_receiver_node_bb.png)
+![ESP32 Receiver Node BreadBoard ](ESP32_receiver_node_bb.png)
 
 ### PCB
-![alt text](ESP32_receiver_node_pcb.png)
+![ESP32 Receiver Node PCB](ESP32_receiver_node_pcb.png)
 
 ### Schema
-![alt text](ESP32_receiver_node_schem.png)
+![ESP32 Receiver Node Scheme](ESP32_receiver_node_schem.png)
 
-
-### Hardware Pinout Matrix
-
-#### 1. Outdoor Transmitter Node (ESP32 WROOM-32U)
-
-| Peripheral Component | Component Pin / Wire |  GPIO | Connection Type | Power Rail | Notes / Signal Type |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| | **Main Power Input** | **USB-C Port** | *Internal* | Power Input | 5V DC | Fed via IP67 Weatherproof Extension Cord |
-| | **QDY30A Level Sensor** | **VCC** (Power Input) | **5V / VIN** | Power Line | 5V DC | Stable sensor driving voltage |
-| | **GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
-| | **OUT** (Analog Out) | **GPIO 34** | Signal Input | 3.3V Max | Analog Input|
-
-#### 2. Indoor Receiver Node (ESP32 WROOM-32D)
-
-| Peripheral Component | Component Pin / Wire | ESP32 Target GPIO | Connection Type | Power Rail | Notes / Signal Type |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| | **Main Power Input** | **USB-C Port** | *Internal* | Power Input | 5V DC | Powered via 5V DC Wall Adapter |
-| | **SSD1306 OLED Screen** | **VCC** (Power Input) | **3.3V** | Power Line | 3.3V DC | Display panel power |
-| | **GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
-| | **SCL** (Clock Line) | **GPIO 22** | Bus Link | 3.3V Logic | Hardware I2C Clock (`SCL`) |
-| | **SDA** (Data Line) | **GPIO 21** | Bus Link | 3.3V Logic | Hardware I2C Data (`SDA`) |
-| | **3V Active Buzzer** | **S / I/O** (Signal) | **GPIO 18** | Control Line | 3.3V Logic | Digital Alert Pulse Output |
-| | **+ / VCC** (Power) | **3.3V** | Power Line | 3.3V DC | Module Transistor Driver |
-| | **- / GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
