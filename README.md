@@ -95,10 +95,24 @@ The operational logic of the project is:
 
 ### Hardware Pinout Matrix
 
+#### 1. Outdoor Transmitter Node (ESP32 WROOM-32U)
+
+| Peripheral Component | Component Pin / Wire |  GPIO | Connection Type | Power Rail | Notes / Signal Type |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| | **Main Power Input** | **USB-C Port** | *Internal* | Power Input | 5V DC | Fed via IP67 Weatherproof Extension Cord |
+| | **QDY30A Level Sensor** | **VCC** (Power Input) | **5V / VIN** | Power Line | 5V DC | Stable sensor driving voltage |
+| | **GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
+| | **OUT** (Analog Out) | **GPIO 34** | Signal Input | 3.3V Max | Analog Input|
+
+#### 2. Indoor Receiver Node (ESP32 WROOM-32D)
+
 | Peripheral Component | Component Pin / Wire | ESP32 Target GPIO | Connection Type | Power Rail | Notes / Signal Type |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🪚 **QDY30A Level Sensor** | **VCC** (Power Input) | **5V / VIN** | Power Line | 5V DC | Stable sensor driving voltage |
+| | **Main Power Input** | **USB-C Port** | *Internal* | Power Input | 5V DC | Powered via 5V DC Wall Adapter |
+| | **SSD1306 OLED Screen** | **VCC** (Power Input) | **3.3V** | Power Line | 3.3V DC | Display panel power |
 | | **GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
-| | **OUT** (Analog Out) | **GPIO 34** | Signal Input | 3.3V Max | Analog Input (`ADC1_CH6`) |
-| 🛠️ **Heltec V3 (UART Link)**| **TX** (Transmit) | **GPIO 16** | Data Link | 3.3V Logic | Serial Data Input (`RX2`) |
-| | **RX** (Receive) | **GPIO 17** | Data Link | 3.3V Logic | Serial Data
+| | **SCL** (Clock Line) | **GPIO 22** | Bus Link | 3.3V Logic | Hardware I2C Clock (`SCL`) |
+| | **SDA** (Data Line) | **GPIO 21** | Bus Link | 3.3V Logic | Hardware I2C Data (`SDA`) |
+| | **3V Active Buzzer** | **S / I/O** (Signal) | **GPIO 18** | Control Line | 3.3V Logic | Digital Alert Pulse Output |
+| | **+ / VCC** (Power) | **3.3V** | Power Line | 3.3V DC | Module Transistor Driver |
+| | **- / GND** (Ground) | **GND** | Ground Line | 0V | Common circuit ground |
