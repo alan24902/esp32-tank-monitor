@@ -5,7 +5,7 @@ This project is a low-power QDY30A hydrostatic liquid level sensor connected to 
 
 <img width="1280" height="720" alt="water_tank_video_thumbnail" src="https://github.com/user-attachments/assets/67d9cb18-a765-44ce-a953-77ec85078134" />
 
-Project Demonstration Video: https://vimeo.com/1223853502?share=copy&fl=sv&fe=ci
+## Project Demonstration Video: https://vimeo.com/1223853502?share=copy&fl=sv&fe=ci
 
 
 ### Key Specs
