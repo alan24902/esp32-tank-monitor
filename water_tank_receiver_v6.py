@@ -47,7 +47,7 @@ while True:
     host, msg = e.recv(timeout_ms=1000)
     
     if msg:
-        last_packet_time = time.time()  # Reset the heartbeat countdown timer
+        last_packet_time = time.time()  # Reset the countdown timer
     
         try:
             data = msg.decode().split(",")
@@ -76,9 +76,9 @@ while True:
             
             oled.show()
 
-            # ===== 🔔 Buzzer Logic =====
+            # ===== Buzze =====
             if percent <= 50:
-                # Beep pattern (clean, not annoying)
+                
                 buzzer.value(1)
                 time.sleep(0.2)
                 buzzer.value(0)
@@ -89,9 +89,9 @@ while True:
         except Exception as err:
             print("Error decoding", err)
             
-    # Local Signal Link Fail-Safe Protocol
-    # If more than 30 seconds pass without a packet, flag it as a connection drop
-    if time.time() - last_packet_time > 30:
+    
+    # If more than 10 seconds pass without a packet, display "ERROR Transmisor offline"
+    if time.time() - last_packet_time > 10:
         oled.fill(0)
         oled.text("!ERROR!", 10, 15)
         oled.text("Transmisor", 0, 35)
